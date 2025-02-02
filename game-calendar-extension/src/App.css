@@ -1,0 +1,824 @@
+:root {
+  --primary: #bb86fc;
+  --primary-variant: #3700b3;
+  --secondary: #03dac6;
+  --background: #121212;
+  --surface: #1e1e1e;
+  --surface-dark: #161616;  /* Nouvelle couleur plus sombre pour les events */
+  --error: #cf6679;
+  --on-primary: #000000;
+  --on-secondary: #000000;
+  --on-background: #e0e0e0; /* Gris clair pour le texte principal */
+  --on-surface: #f5f5f5;  
+  --on-error: #000000;
+  --accent-color: #9146FF;
+  --border-color: #333;
+  --text-color: #fff;
+  --hover-color: #444;
+}
+
+/* Styles globaux */
+body {
+  background-color: var(--background);
+  color: var(--on-background);
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+h1 {
+  color: var(--on-surface);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Conteneur principal */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.App {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.calendar-container {
+    margin: 20px 0;
+}
+
+.event-dots {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 5px;
+}
+
+.event-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.event-dot.game {
+    background-color: #4CAF50;
+}
+
+.event-dot.twitch {
+    background-color: #9146FF;
+}
+
+.event-form {
+  background-color: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.event-form h2 {
+  color: var(--on-surface);
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--on-surface);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  background-color: white;
+  color: black;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(187, 134, 252, 0.2);
+}
+
+.submit-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.submit-button:hover {
+  background-color: var(--primary-variant);
+}
+
+.event-list {
+    margin-top: 30px;
+}
+
+.event-item {
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.event-item.game {
+    border-left: 4px solid #4CAF50;
+}
+
+.event-item.twitch {
+    border-left: 4px solid #9146FF;
+}
+
+.app-container {
+  width: 400px;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.calendar-section {
+  margin-bottom: 20px;
+}
+
+/* Style du calendrier */
+.react-calendar {
+  width: 100%;
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--surface);
+  padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.react-calendar__tile {
+  color: var(--on-surface);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.react-calendar__tile--active {
+  background-color: var(--primary) !important;
+  color: var(--on-primary) !important;
+}
+
+.react-calendar__tile--now {
+  background-color: var(--primary-variant);
+  color: var(--on-primary);
+}
+
+.react-calendar__navigation button {
+  color: var(--primary);
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+}
+
+.event-dot-container {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  margin-top: 3px;
+}
+
+.event-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--secondary);
+}
+
+.event-dot.game {
+  background-color: #4CAF50;
+}
+
+.event-dot.twitch {
+  background-color: #9146FF;
+}
+
+/* Bouton d'ajout d'événement */
+.add-event-button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.add-event-button:hover {
+  background-color: var(--primary-variant);
+}
+
+/* Formulaire d'ajout d'événement */
+.add-event-form {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: var(--surface);
+  border-radius: 8px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--on-surface);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  background-color: var(--background);
+  color: var(--on-background);
+}
+
+.form-group textarea {
+  height: 80px;
+  resize: vertical;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: var(--primary-variant);
+}
+
+/* Liste des événements */
+.events-list {
+  margin-top: 20px;
+  padding: 1rem;
+  background-color: var(--surface);
+  border-radius: 8px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.event-card {
+  display: flex;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  background-color: #2a2a2a;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.event-card:hover {
+  transform: translateY(-2px);
+}
+
+.event-image {
+  width: 80px;
+  height: 80px;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.game-image, .streamer-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.streamer-image {
+  border-radius: 50%;
+}
+
+.event-content {
+  flex: 1;
+}
+
+.event-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.event-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.1em;
+}
+
+.streamer-info {
+  margin-left: 10px;
+  color: #9146ff;
+  font-size: 0.9em;
+}
+
+.event-description {
+  margin: 5px 0;
+  color: #b0b0b0;
+  font-size: 0.9em;
+}
+
+.event-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.edit-button, .delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 5px;
+  font-size: 1em;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.edit-button:hover, .delete-button:hover {
+  opacity: 1;
+}
+
+.platforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.platform-tag {
+  background-color: #3a3a3a;
+  color: #b0b0b0;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+}
+
+.event-card.game {
+  border-left: 4px solid #4CAF50;
+}
+
+.event-card.twitch {
+  border-left: 4px solid #9146FF;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-button:hover {
+  background-color: var(--surface);
+  transform: scale(1.1);
+}
+
+.action-button.verify {
+  color: #9146FF;
+}
+
+.action-button.edit {
+  color: var(--primary);
+}
+
+.action-button.delete {
+  color: var(--error);
+}
+
+.action-button.verify:hover {
+  background-color: rgba(145, 70, 255, 0.1);
+}
+
+.action-button.edit:hover {
+  background-color: rgba(187, 134, 252, 0.1);
+}
+
+.action-button.delete:hover {
+  background-color: rgba(207, 102, 121, 0.1);
+}
+
+.streamer-group .input-with-button {
+  display: flex;
+  gap: 8px;
+}
+
+.streamer-group input {
+  flex: 1;
+}
+
+.verify-button {
+  background-color: #9146FF;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.verify-button:hover {
+  background-color: #7a3dd3;
+}
+
+.verify-button:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.game-image-preview {
+  margin-top: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.game-image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.game-search {
+  margin-bottom: 1rem;
+}
+
+.game-search-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  background-color: white;
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.game-select {
+  margin-bottom: 1rem;
+}
+
+.game-select-container {
+  margin-bottom: 1rem;
+}
+
+.game-select__control {
+  background-color: #1e1e1e !important;
+  border-color: var(--primary) !important;
+  box-shadow: none !important;
+}
+
+.game-select__control:hover {
+  border-color: var(--primary-variant) !important;
+}
+
+.game-select__control--is-focused {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 1px var(--primary) !important;
+}
+
+.game-select__menu {
+  background-color: #1e1e1e !important;
+  border: 1px solid var(--primary) !important;
+  color: var(--on-surface) !important;
+}
+
+.game-select__option {
+  color: var(--on-surface) !important;
+  background-color: #1e1e1e !important;
+}
+
+.game-select__option:hover {
+  background-color: rgba(187, 134, 252, 0.1) !important;
+}
+
+.game-select__option--is-selected {
+  background-color: var(--primary) !important;
+  color: var(--on-primary) !important;
+}
+
+.game-select__single-value {
+  color: var(--on-surface) !important;
+}
+
+.game-select__input {
+  color: var(--on-surface) !important;
+}
+
+.game-select__placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.game-select__indicator {
+  color: var(--on-surface) !important;
+}
+
+.game-select__indicator:hover {
+  color: var(--primary) !important;
+}
+
+.game-details {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.game-details p {
+  margin: 0.5rem 0;
+  color: var(--on-surface);
+}
+
+.release-date {
+  font-weight: bold;
+  color: var(--primary) !important;
+}
+
+.platforms {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.streamer-select-container {
+  margin-bottom: 1rem;
+}
+
+.streamer-select__control {
+  background-color: #1e1e1e !important;
+  border-color: var(--primary) !important;
+  box-shadow: none !important;
+}
+
+.streamer-select__control:hover {
+  border-color: var(--primary-variant) !important;
+}
+
+.streamer-select__control--is-focused {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 1px var(--primary) !important;
+}
+
+.streamer-select__menu {
+  background-color: #1e1e1e !important;
+  border: 1px solid var(--primary) !important;
+  color: var(--on-surface) !important;
+}
+
+.streamer-select__option {
+  color: var(--on-surface) !important;
+  background-color: #1e1e1e !important;
+  padding: 8px !important;
+}
+
+.streamer-select__option:hover {
+  background-color: rgba(187, 134, 252, 0.1) !important;
+}
+
+.streamer-select__option--is-selected {
+  background-color: var(--primary) !important;
+  color: var(--on-primary) !important;
+}
+
+.streamer-select__single-value {
+  color: var(--on-surface) !important;
+}
+
+.streamer-select__input {
+  color: var(--on-surface) !important;
+}
+
+.streamer-select__placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.streamer-select__indicator {
+  color: var(--on-surface) !important;
+}
+
+.streamer-select__indicator:hover {
+  color: var(--primary) !important;
+}
+
+.streamer-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 4px;
+}
+
+.streamer-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.streamer-info {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.streamer-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 0.9em;
+}
+
+.live-badge {
+  background-color: #e91916;
+  color: white;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 0.65rem;
+  font-weight: bold;
+}
+
+.streamer-game {
+  color: #444;
+  font-size: 0.75em;
+  margin-top: 1px;
+}
+
+.streamer-description {
+  color: #666;
+  font-size: 0.75em;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+}
+
+.select__control {
+  background-color: var(--background) !important;
+  border-color: var(--border-color) !important;
+}
+
+.select__menu {
+  background-color: var(--background) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.select__option {
+  background-color: var(--background) !important;
+  color: var(--text-color) !important;
+}
+
+.select__option--is-focused {
+  background-color: var(--hover-color) !important;
+}
+
+.select__option--is-selected {
+  background-color: var(--accent-color) !important;
+}
+
+.select__single-value {
+  color: var(--text-color) !important;
+}
+
+.select__input {
+  color: var(--text-color) !important;
+}
+
+.event-title {
+  flex: 1;
+}
+
+.event-title h3 {
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.event-title .streamer-name {
+  font-size: 1.1em;
+  
+  margin-top: 5px;
+  font-weight: 500;
+  .platform-tag {
+    margin-right: 5px;
+    background-color: var(--accent-color);
+    color: var(--on-primary);
+  }
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--surface-dark);
+  border-radius: 8px;
+  margin: 1rem;
+}
+
+.error-container h2 {
+  color: var(--error);
+  margin-bottom: 1rem;
+}
+
+.error-container p {
+  color: var(--on-surface);
+}
+
+/* Media queries pour la réactivité */
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+  }
+  
+  .react-calendar {
+    width: 100%;
+  }
+}
