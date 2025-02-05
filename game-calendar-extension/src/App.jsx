@@ -234,9 +234,23 @@ function App() {
     setDate(newDate);
     setNewEvent(prev => ({
       ...prev,
-      date: format(newDate, 'yyyy-MM-dd')
+      date: format(newDate, 'yyyy-MM-dd') + (prev.type === 'other' ? 'T00:00' : '')
     }));
-    setShowAddEvent(true);
+  };
+
+  const handleTypeChange = (e) => {
+    const type = e.target.value;
+    setNewEvent(prev => ({
+      ...prev,
+      type,
+      date: format(date, 'yyyy-MM-dd') + (type === 'other' ? 'T00:00' : '')
+    }));
+  };
+
+  const extractUrl = (text) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const match = text.match(urlRegex);
+    return match ? match[0] : null;
   };
 
   const getEventsForDate = (date) => {
@@ -264,39 +278,57 @@ function App() {
   };
 
   const renderEvent = (event) => {
+    const url = event.type === 'other' ? extractUrl(event.description || '') : null;
+    
     return (
       <div key={event.id} className={`event-card ${event.type}`} onClick={() => handleEventClick(event)}>
-        <div className="event-image">
-          {event.type === 'game' && event.gameImage && (
-            <img 
-              src={event.gameImage} 
-              alt={event.title} 
-              className="game-image" 
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100%" height="100%" fill="%23333"/><text x="50%" y="50%" font-family="Arial" font-size="14" fill="white" text-anchor="middle" dy=".3em">No Image</text></svg>';
-              }}
-            />
-          )}
-          {event.type === 'twitch' && event.streamerImage && (
-            <img 
-              src={event.streamerImage} 
-              alt={event.streamer} 
-              className="streamer-image" 
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100%" height="100%" fill="%23333"/><text x="50%" y="50%" font-family="Arial" font-size="14" fill="white" text-anchor="middle" dy=".3em">No Image</text></svg>';
-              }}
-            />
-          )}
-        </div>
+        {event.type !== 'other' && (
+          <div className="event-image">
+            {event.type === 'game' && event.gameImage && (
+              <img 
+                src={event.gameImage} 
+                alt={event.title} 
+                className="game-image" 
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100%" height="100%" fill="%23333"/><text x="50%" y="50%" font-family="Arial" font-size="14" fill="white" text-anchor="middle" dy=".3em">No Image</text></svg>';
+                }}
+              />
+            )}
+            {event.type === 'twitch' && event.streamerImage && (
+              <img 
+                src={event.streamerImage} 
+                alt={event.streamer} 
+                className="streamer-image" 
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100%" height="100%" fill="%23333"/><text x="50%" y="50%" font-family="Arial" font-size="14" fill="white" text-anchor="middle" dy=".3em">No Image</text></svg>';
+                }}
+              />
+            )}
+          </div>
+        )}
         <div className="event-content">
           <div className="event-header">
             <div className="event-title">
-              <h3>{event.title}</h3>
+              {event.type === 'other' && url ? (
+                <h3>
+                  <a href={url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                    {event.title}
+                  </a>
+                </h3>
+              ) : (
+                <h3>{event.title}</h3>
+              )}
               {event.type === 'twitch' && event.streamer && (
                 <div className="streamer-name">
-                  <span class="platform-tag">{event.streamer}</span></div>
+                  <span className="platform-tag">{event.streamer}</span>
+                </div>
+              )}
+              {event.type === 'other' && (
+                <div className="event-time">
+                  <span className="time-tag">{format(new Date(event.date), 'HH:mm')}</span>
+                </div>
               )}
             </div>
             <div className="event-actions">
@@ -377,10 +409,13 @@ function App() {
               <label>Type</label>
               <select
                 value={newEvent.type}
-                onChange={(e) => setNewEvent({ ...newEvent, type: e.target.value })}
+                onChange={handleTypeChange}
+                required
               >
+                <option value="">Sélectionner un type</option>
                 <option value="game">Jeu</option>
                 <option value="twitch">Stream Twitch</option>
+                <option value="other">Autre</option>
               </select>
             </div>
 
@@ -456,22 +491,34 @@ function App() {
               </div>
             )}
 
+            {newEvent.type === 'other' ? (
+              <div className="form-group">
+                <label>Date et heure</label>
+                <input
+                  type="datetime-local"
+                  value={newEvent.date}
+                  onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
+                  required
+                />
+              </div>
+            ) : (
+              <div className="form-group">
+                <label>Date</label>
+                <input
+                  type="date"
+                  value={newEvent.date}
+                  onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
+                  required
+                />
+              </div>
+            )}
+
             <div className="form-group">
               <label>Titre</label>
               <input
                 type="text"
                 value={newEvent.title}
                 onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Date</label>
-              <input
-                type="date"
-                value={newEvent.date}
-                onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
                 required
               />
             </div>

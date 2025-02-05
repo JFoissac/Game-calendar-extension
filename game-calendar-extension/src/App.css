@@ -104,11 +104,15 @@ h1 {
 }
 
 .event-dot.game {
-    background-color: #4CAF50;
+  background-color: #4CAF50;
 }
 
 .event-dot.twitch {
-    background-color: #9146FF;
+  background-color: #9146FF;
+}
+
+.event-dot.other {
+  background-color: #666;
 }
 
 .event-form {
@@ -193,6 +197,10 @@ h1 {
     border-left: 4px solid #9146FF;
 }
 
+.event-item.other {
+  border-left: 4px solid #666;
+}
+
 .app-container {
   width: 400px;
   padding: 20px;
@@ -259,6 +267,10 @@ h1 {
 
 .event-dot.twitch {
   background-color: #9146FF;
+}
+
+.event-dot.other {
+  background-color: #666;
 }
 
 /* Bouton d'ajout d'événement */
@@ -346,8 +358,31 @@ h1 {
   transition: transform 0.2s;
 }
 
-.event-card:hover {
-  transform: translateY(-2px);
+.event-card.game {
+  border-left: 4px solid #4CAF50;
+}
+
+.event-card.twitch {
+  border-left: 4px solid #9146FF;
+}
+
+.event-card.other {
+  border-left: 4px solid #666;
+  text-align: left;
+  padding-left: 16px;
+}
+
+.event-card.other .event-content {
+  padding: 12px 0;
+}
+
+.event-card.other a {
+  color: var(--on-surface);
+  text-decoration: none;
+}
+
+.event-card.other a:hover {
+  text-decoration: underline;
 }
 
 .event-image {
@@ -431,12 +466,13 @@ h1 {
   font-size: 0.8em;
 }
 
-.event-card.game {
-  border-left: 4px solid #4CAF50;
-}
-
-.event-card.twitch {
-  border-left: 4px solid #9146FF;
+.time-tag {
+  background-color: #666;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  margin-left: 8px;
 }
 
 .action-button {
